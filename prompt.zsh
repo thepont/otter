@@ -42,30 +42,5 @@
 # ZSH_THEME_GIT_PROMPT_CHANGED="%{$bg[red]%}%{$fg[black]%}+"
 # ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$bg[cyan]%}%{$fg[black]%}…"
 # ZSH_THEME_GIT_PROMPT_CLEAN=""
- 
-# # Prompt
-# PROMPT='%{$bg[blue]%}%{$fg[black]%} %c %{$fg[blue]%}$(git_super_status)%{$bg[black]%}⮀%{$reset_color%} '
 
-# Initialize colors.
-autoload -U colors
-colors
- 
-# Allow for functions in the prompt.
-setopt PROMPT_SUBST
-# Autoload zsh functions.
-fpath=($ZSH_CUSTOM/plugins/otter/functions $fpath)
-autoload -U $ZSH_CUSTOM/plugins/otter/functions/*(:t)
- 
-# Enable auto-execution of functions.
-typeset -ga preexec_functions
-typeset -ga precmd_functions
-typeset -ga chpwd_functions
- 
-# Append git functions needed for prompt.
-preexec_functions+='preexec_update_git_vars'
-precmd_functions+='precmd_update_git_vars'
-chpwd_functions+='chpwd_update_git_vars'
-prompt_git_info+='prompt_git_info'
- 
-# Set the prompt.
 PROMPT=$'%{${fg[cyan]}%}%B%~%b$(prompt_git_info)%{${fg[default]}%} '
