@@ -26,7 +26,7 @@ DEFAULT_DIVERGED="↕"
 ## Function definitions
 function preexec_update_git_vars() {
 	case "$1" in 
-		git*)
+		g*)
 		__EXECUTED_GIT_COMMAND=1
 		;;
 	esac
@@ -75,6 +75,27 @@ function update_current_git_vars() {
 	fi
 }
 
+# get the difference between the local and remote branches
+git_remote_status() {
+    remote=${$(command git rev-parse --verify ${hook_com[branch]}@{upstream} --symbolic-full-name 2>/dev/null)/refs\/remotes\/}
+    if [[ -n ${remote} ]] ; then
+        ahead=$(command git rev-list ${hook_com[branch]}@{upstream}..HEAD 2>/dev/null | wc -l)
+        behind=$(command git rev-list HEAD..${hook_com[branch]}@{upstream} 2>/dev/null | wc -l)
+
+        if [ $ahead -eq 0 ] && [ $behind -gt 0 ]
+        then
+            echo "$ZSH_THEME_GIT_PROMPT_BEHIND_REMOTE"
+        elif [ $ahead -gt 0 ] && [ $behind -eq 0 ]
+        then
+            echo "$ZSH_THEME_GIT_PROMPT_AHEAD_REMOTE"
+        elif [ $ahead -gt 0 ] && [ $behind -gt 0 ]
+        then
+            echo "$ZSH_THEME_GIT_PROMPT_DIVERGED_REMOTE"
+        fi
+        echo $ahead":"$behind
+    fi
+}
+
 prompt_git_info() {	
 	if [ -n "$__CURRENT_GIT_BRANCH" ]; then
 		local s=${GIT_PREFIX-$DEFAULT_PREFIX}
@@ -97,8 +118,8 @@ prompt_git_info() {
 	 
 		printf " %s%s" "%{${fg[yellow]}%}" $s
 	fi
-	# echo "$__CURRENT_GIT_BRANCH"
-	# echo "$__CURRENT_GIT_BRANCH_STATUS"
-	# echo "$__CURRENT_GIT_BRANCH_IS_DIRTY"
+	echo "\n"
+	echo "$__CURRENT_GIT_BRANCH"
+	echo "$__CURRENT_GIT_BRANCH_STATUS"
 }
 
