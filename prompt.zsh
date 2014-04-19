@@ -1,16 +1,27 @@
 
 b="%{$fg[blue]%}"
+bl="%{$fg[black]%}"
 g="%{$fg[green]%}"
 c="%{$fg[cyan]%}"
 r="%{$fg[red]%}"
 y="%{$fg[yellow]%}"
 w="%{$fg[white]%}"
 m="%{$fg[magenta]%}"
+
+_b="%{$bg[blue]%}"
+_g="%{$bg[green]%}"
+_c="%{$bg[cyan]%}"
+_r="%{$bg[red]%}"
+_y="%{$bg[yellow]%}"
+_w="%{$bg[white]%}"
+_m="%{$bg[magenta]%}"
+
 res="%{$reset_color%}"
+
+_sep="%{$fg[yellow]%}%{$bg[black]%}⮀"
 
 
 # PROMPT="${blue}%c => ${reset}"
-# RPROMPT="${green}%M [%D{%H:%M:%S}]${reset}"
 
 # ZSH_THEME_GIT_PROMPT_PREFIX=" $fg[white]‹ %{$fg_bold[yellow]%}"
 # ZSH_THEME_GIT_PROMPT_AHEAD="%{$fg_bold[magenta]%}↑"
@@ -42,13 +53,15 @@ res="%{$reset_color%}"
 
 # Modify the colors and symbols in these variables as desired.
 GIT_PROMPT_SYMBOL=""
-GIT_PROMPT_PREFIX="${b}[${res}"
+GIT_PROMPT_PREFIX="${b}[${g}"
 GIT_PROMPT_SUFFIX="${b}]${res}"
-GIT_PROMPT_AHEAD="${r}↑NUM${res}"
-GIT_PROMPT_BEHIND="${c}↓NUM${res}"
-GIT_PROMPT_MERGING="${m}⚡︎${res}"
+GIT_PROMPT_AHEAD="${r}⬆ NUM${res}"
+GIT_PROMPT_BEHIND="${g}⬇ NUM${res}"
+GIT_PROMPT_MERGING="${m}✕${res}"
 GIT_PROMPT_UNTRACKED="${r}●${res}"
 GIT_PROMPT_MODIFIED="${y}●${res}"
 GIT_PROMPT_STAGED="${g}●${res}"
 
-PROMPT=$'${b}%B%~%b$(git_prompt_string)%{${fg[default]}%} '
+
+PROMPT="${b}%c$(git_prompt_string) ${b}=> ${res}"
+RPROMPT="${green}%M [%D{%H:%M:%S}]${reset}"
