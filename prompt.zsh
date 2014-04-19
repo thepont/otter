@@ -65,6 +65,7 @@ typeset -ga chpwd_functions
 preexec_functions+='preexec_update_git_vars'
 precmd_functions+='precmd_update_git_vars'
 chpwd_functions+='chpwd_update_git_vars'
+prompt_git_info+='prompt_git_info'
  
 # Set the prompt.
-PROMPT=$'%{${fg[cyan]}%}%B%~%b$(git_prompt_info)%{${fg[default]}%} '
+PROMPT=$'%{${fg[cyan]}%}%B%~%b$(prompt_git_info)%{${fg[default]}%} '
