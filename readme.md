@@ -1,7 +1,7 @@
 Otter
 =====
 
-A combination theme and plugin for oh-my-zsh.
+A combination theme and plugin for oh-my-zsh. But mostly just a way to keep my terminals up to date across various computers.
 
 
 Installation
@@ -11,7 +11,7 @@ Clone the repo somewhere and set the `ZSH_CUSTOM` variable to the Otter Director
 
     ZSH_CUSTOM=$HOME/path/to/otter
     ZSH_THEME="otter"
-    plugins=(git rad plugins otter)
+    plugins=(otter some other rad plugins)
 
 
 Functions
@@ -60,4 +60,11 @@ Open `~/.oh-my-zsh` in `$EDITOR`
 
 ###`k`
 Kill a process number
+
+
+References
+----------
+
+[http://zanshin.net/2013/02/02/zsh-configuration-from-the-ground-up/](http://zanshin.net/2013/02/02/zsh-configuration-from-the-ground-up/)
+[https://gist.github.com/joshdick/4415470](https://gist.github.com/joshdick/4415470)
 
