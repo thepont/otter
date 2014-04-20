@@ -18,52 +18,58 @@ _m="%{$bg[magenta]%}"
 res="%{$reset_color%}"
 
 
-function my_git_prompt() {
-  tester=$(git rev-parse --git-dir 2> /dev/null) || return  
-  INDEX=$(git status --porcelain 2> /dev/null)
-  STATUS=""
 
-  # is branch ahead?
-  if $(echo "$(git log origin/$(current_branch)..HEAD 2> /dev/null)" | grep '^commit' &> /dev/null); then
-    STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_AHEAD"
+# Show different symbols as appropriate for various Git repository states
+parse_git_state() {
+
+  # Compose this value via multiple conditional appends.
+  local GIT_STATE=""
+
+  local NUM_AHEAD="$(git log --oneline @{u}.. 2> /dev/null | wc -l | tr -d ' ')"
+  if [ "$NUM_AHEAD" -gt 0 ]; then
+    GIT_STATE=$GIT_STATE${ZSH_THEME_GIT_PROMPT_AHEAD//NUM/$NUM_AHEAD}
   fi
 
-  # is anything staged?
-  if $(echo "$INDEX" | grep -E -e '^(D[ M]|[MARC][ MD]) ' &> /dev/null); then
-    STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_STAGED"
+  local NUM_BEHIND="$(git log --oneline ..@{u} 2> /dev/null | wc -l | tr -d ' ')"
+  if [ "$NUM_BEHIND" -gt 0 ]; then
+    GIT_STATE=$GIT_STATE${ZSH_THEME_GIT_PROMPT_BEHIND//NUM/$NUM_BEHIND}
   fi
 
-  # is anything unstaged?
-  if $(echo "$INDEX" | grep -E -e '^[ MARC][MD] ' &> /dev/null); then
-    STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_UNSTAGED"
+  local GIT_DIR="$(git rev-parse --git-dir 2> /dev/null)"
+  if [ -n $GIT_DIR ] && test -r $GIT_DIR/MERGE_HEAD; then
+    GIT_STATE=$GIT_STATE$ZSH_THEME_GIT_PROMPT_MERGING
   fi
 
-  # is anything untracked?
-  if $(echo "$INDEX" | grep '^?? ' &> /dev/null); then
-    STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_UNTRACKED"
+  if [[ -n $(git ls-files --other --exclude-standard 2> /dev/null) ]]; then
+    GIT_STATE=$GIT_STATE$ZSH_THEME_GIT_PROMPT_UNTRACKED
   fi
 
-  # is anything unmerged?
-  if $(echo "$INDEX" | grep -E -e '^(A[AU]|D[DU]|U[ADU]) ' &> /dev/null); then
-    STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_UNMERGED"
+  if ! git diff --quiet 2> /dev/null; then
+    GIT_STATE=$GIT_STATE$ZSH_THEME_GIT_PROMPT_MODIFIED
   fi
 
-  if [[ -n $STATUS ]]; then
-    STATUS=" $STATUS"
+  if ! git diff --cached --quiet 2> /dev/null; then
+    GIT_STATE=$GIT_STATE$ZSH_THEME_GIT_PROMPT_STAGED
   fi
 
-  echo "$ZSH_THEME_GIT_PROMPT_PREFIX$(my_current_branch)$STATUS$ZSH_THEME_GIT_PROMPT_SUFFIX"
+  if [[ -n $GIT_STATE ]]; then
+    echo "$ZSH_THEME_GIT_PROMPT_PREFIX$GIT_STATE$ZSH_THEME_GIT_PROMPT_SUFFIX"
+  fi
+
 }
 
-function my_current_branch() {
-  echo $(current_branch || echo "(no branch)")
+# If inside a Git repository, print its branch and state
+git_prompt_info() {
+	local git_where="$(parse_git_branch)"
+	[ -n "$git_where" ] && echo "$ZSH_THEME_GIT_PROMPT_PREFIX${git_where#(refs/heads/|tags/)}$ZSH_THEME_GIT_PROMPT_SUFFIX$(parse_git_state)"
 }
 
-function ssh_connection() {
-  if [[ -n $SSH_CONNECTION ]]; then
-    echo "%{$fg_bold[red]%}(ssh) "
-  fi
+# Show Git branch/tag, or name-rev if on detached head
+parse_git_branch() {
+  (git symbolic-ref -q HEAD || git name-rev --name-only --no-undefined --always HEAD) 2> /dev/null
 }
+
+
 
 # Modify the colors and symbols in these variables as desired.
 ZSH_THEME_GIT_PROMPT_PREFIX="${b}[${g}"
@@ -75,7 +81,7 @@ ZSH_THEME_GIT_PROMPT_UNTRACKED="${r}●${res}"
 ZSH_THEME_GIT_PROMPT_MODIFIED="${y}●${res}"
 ZSH_THEME_GIT_PROMPT_STAGED="${g}●${res}"
 
-PROMPT=$'${b}%c$(my_git_prompt) ${b}=> ${res}'
+PROMPT=$'${b}%c$(git_prompt_info) ${b}=> ${res}'
 
 # PROMPT="${b}%c$(my_git_prompt) ${b}=> ${res}"
 RPROMPT="${green}%M [%D{%H:%M:%S}]${reset}"
@@ -91,56 +97,7 @@ RPROMPT="${green}%M [%D{%H:%M:%S}]${reset}"
 # # setopt prompt_subst
 # # autoload -U colors && colors # Enable colors in prompt
 
-# # Show Git branch/tag, or name-rev if on detached head
-# parse_git_branch() {
-#   (git symbolic-ref -q HEAD || git name-rev --name-only --no-undefined --always HEAD) 2> /dev/null
-# }
 
-# # Show different symbols as appropriate for various Git repository states
-# parse_git_state() {
-
-#   # Compose this value via multiple conditional appends.
-#   local GIT_STATE=""
-
-#   local NUM_AHEAD="$(git log --oneline @{u}.. 2> /dev/null | wc -l | tr -d ' ')"
-#   if [ "$NUM_AHEAD" -gt 0 ]; then
-#     GIT_STATE=$GIT_STATE${ZSH_THEME_GIT_PROMPT_AHEAD//NUM/$NUM_AHEAD}
-#   fi
-
-#   local NUM_BEHIND="$(git log --oneline ..@{u} 2> /dev/null | wc -l | tr -d ' ')"
-#   if [ "$NUM_BEHIND" -gt 0 ]; then
-#     GIT_STATE=$GIT_STATE${ZSH_THEME_GIT_PROMPT_BEHIND//NUM/$NUM_BEHIND}
-#   fi
-
-#   local GIT_DIR="$(git rev-parse --git-dir 2> /dev/null)"
-#   if [ -n $GIT_DIR ] && test -r $GIT_DIR/MERGE_HEAD; then
-#     GIT_STATE=$GIT_STATE$ZSH_THEME_GIT_PROMPT_MERGING
-#   fi
-
-#   if [[ -n $(git ls-files --other --exclude-standard 2> /dev/null) ]]; then
-#     GIT_STATE=$GIT_STATE$ZSH_THEME_GIT_PROMPT_UNTRACKED
-#   fi
-
-#   if ! git diff --quiet 2> /dev/null; then
-#     GIT_STATE=$GIT_STATE$ZSH_THEME_GIT_PROMPT_MODIFIED
-#   fi
-
-#   if ! git diff --cached --quiet 2> /dev/null; then
-#     GIT_STATE=$GIT_STATE$ZSH_THEME_GIT_PROMPT_STAGED
-#   fi
-
-#   if [[ -n $GIT_STATE ]]; then
-#     echo "$ZSH_THEME_GIT_PROMPT_PREFIX$GIT_STATE$ZSH_THEME_GIT_PROMPT_SUFFIX"
-#   fi
-
-# }
-
-# # If inside a Git repository, print its branch and state
-# git_prompt_info() {
-# 	local git_where="$(parse_git_branch)"
-# 	echo $'$git_where\n'
-# 	[ -n "$git_where" ] && echo "$ZSH_THEME_GIT_PROMPT_PREFIX${git_where#(refs/heads/|tags/)}$ZSH_THEME_GIT_PROMPT_SUFFIX$(parse_git_state)"
-# }
 
 
 
