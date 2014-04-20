@@ -7,8 +7,8 @@ A combination theme and plugin for oh-my-zsh.
 Installation
 ------------
 
-Currently you can just clone the repo into your oh-my-zsh custom directory.
+Clone the repo somewhere and set the `ZSH_CUSTOM` variable to the Otter Directory
 
-    cd ~/.oh-my-zsh/custom/plugins && git clone https://github.com/allanhortle/otter.git
-
-Then place otter amongst your plugin list in `.zshrc`
+    ZSH_CUSTOM=$HOME/path/to/otter
+    ZSH_THEME="otter"
+    plugins=(git rad plugins otter)
