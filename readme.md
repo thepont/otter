@@ -14,6 +14,81 @@ Clone the repo somewhere and set the `ZSH_CUSTOM` variable to the Otter Director
     plugins=(otter some other rad plugins)
 
 
+
+Aliases
+---------
+
+### Otter
+
+`otter` : cd to the otter folder
+
+
+---
+###Git
+
+
+`g`         : Shorter Git
+
+`gc`        : Add eveything and commit with a message
+
+`ga`        : Add all files from repo root.
+
+`gf`        : Better Fetch
+
+`gg`        : Quick repo update
+
+`grm`       : Make git forget a file
+
+`gwhoops`   : Amend files to last commit
+
+`gdelete`   : Delete local and remote copy of branch
+
+---
+### Maven/Jetty shortcuts
+
+`jrun` : Run Jetty
+
+`jfrun` : Run a forked version of Jetty
+
+`jkill` : Kill the latest jetty instance
+
+---
+### Stash
+
+`pr` : Create a pull request
+
+---
+### Bower
+
+`bower` : No Glob for ZSH usage
+
+---
+### Tig
+
+`t`     : Shorter Tig
+
+`tst`   : Tig Status
+
+---
+### oh-my-zsh
+
+`zc`    	: Edit Config
+
+`zr`    	: Reload Config
+
+`ohmyzsh` 	: Open ohmyzsh folder
+
+---
+### Misc
+
+`k`     : Kill a process
+
+`cello` : Sing a Song
+
+
+  
+   
+
 Functions
 ---------
 
@@ -44,27 +119,10 @@ Search for running processes
 http://onethingwell.org/post/14669173541/any
 
 
-Aliases
----------
-
-###`gc`
-Git add all then commit.
-
-###`zc`
-Edit `.zshrc` in `$EDITOR`
-###`zr`
-Reload `.zshrc`
-
-###`ohmyzsh`
-Open `~/.oh-my-zsh` in `$EDITOR`
-
-###`k`
-Kill a process number
-
 
 References
 ----------
 
-[http://zanshin.net/2013/02/02/zsh-configuration-from-the-ground-up/](http://zanshin.net/2013/02/02/zsh-configuration-from-the-ground-up/)
+[http://zanshin.net/2013/02/02/zsh-configuration-from-the-ground-up/](http://zanshin.net/2013/02/02/zsh-configuration-from-the-ground-up/)  
 [https://gist.github.com/joshdick/4415470](https://gist.github.com/joshdick/4415470)
 

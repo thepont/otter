@@ -70,7 +70,6 @@ alias bower='noglob bower'
 #--------------------------------------------------------------------------
 
 alias t='tig'
-compdef t=tig
 alias tst='tig status'
 
 
