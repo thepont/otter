@@ -1,10 +1,77 @@
 
+alias otter=$ZSH_CUSTOM
+
 #--------------------------------------------------------------------------
 # Git
 #--------------------------------------------------------------------------
 
-# Add and Commit
+alias g='git'
+
+# Add all and commit with message
 alias gc='git add -A :/ && git commit -am'
+
+# Add all files from repo root.
+alias ga='git add -A :/'
+
+# Better Fetch
+alias gf='git fetch -p'
+
+# Hacky way to update Git
+alias gg='g | clear'
+
+# Amend files to last commit
+alias gwhoops='git commit --amend -C HEAD'
+
+alias grm='git update-index --assume-unchanged'
+
+# Delete local and remote branch
+function gdelete(){
+    _MOD="$1"
+    if [ -z "$_MOD" ]
+    then
+        echo "Please pass branch name"
+    else
+        git branch -d $_MOD && git push origin :$_MOD
+    fi
+}
+
+
+#--------------------------------------------------------------------------
+# Maven/Jetty shortcuts
+#--------------------------------------------------------------------------
+
+#run jetty
+alias jrun='mvn jetty:run -Djava.awt.headless=true'
+
+#run forked jetty
+alias jfrun='mvn jetty:run-forked -Djava.awt.headless=true'
+
+#kill the latest jetty instance
+alias jkill='kill -9 `ps -e | grep jetty\:run | awk '"'"'{print $1}'"'"' | tail -1`'
+
+
+#--------------------------------------------------------------------------
+# Atlassian Stash
+#--------------------------------------------------------------------------
+
+# Create a pull request
+alias pr='stash pull-request'
+
+
+#--------------------------------------------------------------------------
+# Bower
+#--------------------------------------------------------------------------
+
+# No Glob for ZSH usage
+alias bower='noglob bower'
+
+#--------------------------------------------------------------------------
+# Tig
+#--------------------------------------------------------------------------
+
+alias t='tig'
+compdef t=tig
+alias tst='tig status'
 
 
 #--------------------------------------------------------------------------
