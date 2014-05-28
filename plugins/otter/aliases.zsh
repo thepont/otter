@@ -43,7 +43,7 @@ function gdelete(){
 #--------------------------------------------------------------------------
 
 #run jetty
-alias jrun='mvn jetty:run -Djava.awt.headless=true'
+alias jrun='mvn jetty:run -o -Djava.awt.headless=true'
 
 #run forked jetty
 alias jfrun='mvn jetty:run-forked -Djava.awt.headless=true'
