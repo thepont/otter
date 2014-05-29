@@ -26,7 +26,6 @@ Aliases
 ---
 ###Git
 
-
 `g`         : Shorter Git
 
 `gc`        : Add eveything and commit with a message

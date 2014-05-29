@@ -46,7 +46,7 @@ function gdelete(){
 alias jrun='mvn jetty:run -o -Djava.awt.headless=true'
 
 #run forked jetty
-alias jfrun='mvn jetty:run-forked -Djava.awt.headless=true'
+alias jfrun='mvn jetty:run-forked -o -Djava.awt.headless=true'
 
 #kill the latest jetty instance
 alias jkill='kill -9 `ps -e | grep jetty\:run | awk '"'"'{print $1}'"'"' | tail -1`'
