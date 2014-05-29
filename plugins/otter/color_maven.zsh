@@ -17,8 +17,11 @@ mvn(){
 color_maven() {
   $OTTER_MAVEN_HOME/mvn $@ | sed -e "s/Tests run: \([^,]*\), Failures: \([^,]*\), Errors: \([^,]*\), Skipped: \([^,]*\)/$fg[green]Tests run: \1$reset_color, Failures: $fg[red]\2$reset_color, Errors: $fg[yellow]\3$reset_color, Skipped: $fg[blue]\4$reset_color/g" \
     -e "s/\(\[WARN.*\].*\)/$fg[yellow]\1$reset_color/g" \
+    -e "s/\(WARN.*\)/$fg[yellow]\1$reset_color/g" \
     -e "s/\(\[INFO\].*\)/$fg[cyan]\1$reset_color/g" \
+    -e "s/\(INFO.*\)/$fg[cyan]\1$reset_color/g" \
     -e "s/\(\[STDERR\].*\)/$fg[red]\1$reset_color/g" \
     -e "s/\(\[ERROR\].*\)/$fg[red]\1$reset_color/g" \
+    -e "s/\(ERROR.*\)/$fg[red]\1$reset_color/g" \
     -e "s/\(\[STDOUT\].*\)/$fg[green]\1$reset_color/g" \
 }
