@@ -72,16 +72,16 @@ parse_git_branch() {
 
 
 # Modify the colors and symbols in these variables as desired.
-ZSH_THEME_GIT_PROMPT_PREFIX="${b}[${g}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="${b}]${res}"
-ZSH_THEME_GIT_PROMPT_AHEAD="${r}⬆ NUM${res}"
+ZSH_THEME_GIT_PROMPT_PREFIX="${c}[${g}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="${c}]${res}"
+ZSH_THEME_GIT_PROMPT_AHEAD="${g}⬆ NUM${res}"
 ZSH_THEME_GIT_PROMPT_BEHIND="${g}⬇ NUM${res}"
 ZSH_THEME_GIT_PROMPT_MERGING="${m}✕${res}"
 ZSH_THEME_GIT_PROMPT_UNTRACKED="${r}●${res}"
 ZSH_THEME_GIT_PROMPT_MODIFIED="${y}●${res}"
 ZSH_THEME_GIT_PROMPT_STAGED="${g}●${res}"
 
-PROMPT=$'${b}%c$(git_prompt_info) ${b}=> ${res}'
+PROMPT=$'${c}%c$(git_prompt_info) ${c}=> ${res}'
 
 # PROMPT="${b}%c$(my_git_prompt) ${b}=> ${res}"
 RPROMPT="${green}%M [%D{%H:%M:%S}]${reset}"
