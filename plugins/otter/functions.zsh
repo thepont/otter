@@ -21,9 +21,21 @@ function ip() {
 #
 
 function serve() {
-	_HOST=${1-localhost}
-	_PORT=${2-8000}
-	php -S $_HOST:$_PORT -t .
+  _HOST=${1-localhost}
+  _PORT=${2-8000}
+  php -S $_HOST:$_PORT -t .
+}
+
+
+#--------------------------------------------------------------------------
+# unixify
+#--------------------------------------------------------------------------
+#
+# => serve hostname(localhost) port(8000)
+#
+
+function unixify() {
+  tr '\015' '\n' < ${1} >${2-output.txt}
 }
 
 

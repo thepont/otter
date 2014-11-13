@@ -42,6 +42,15 @@ function gdelete(){
 # Maven/Jetty shortcuts
 #--------------------------------------------------------------------------
 
+alias music='ncmpcpp'
+
+
+
+
+#--------------------------------------------------------------------------
+# Maven/Jetty shortcuts
+#--------------------------------------------------------------------------
+
 #run jetty
 alias jrun='mvn jetty:run -o -Djava.awt.headless=true'
 
