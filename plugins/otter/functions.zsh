@@ -21,9 +21,9 @@ function ip() {
 #
 
 function serve() {
-  _HOST=${1-localhost}
-  _PORT=${2-8000}
-  php -S $_HOST:$_PORT -t .
+    _HOST=${1-localhost}
+    _PORT=${2-8000}
+    php -S $_HOST:$_PORT -t .
 }
 
 
@@ -31,45 +31,34 @@ function serve() {
 # unixify
 #--------------------------------------------------------------------------
 #
-# => serve hostname(localhost) port(8000)
+# Clean up MS-DOS line breaks
 #
 
 function unixify() {
-  tr '\015' '\n' < ${1} >${2-output.txt}
+    tr '\015' '\n' < ${1} >${2-output.txt}
 }
 
-
-#--------------------------------------------------------------------------
-# npm install shortcut
-#--------------------------------------------------------------------------
-
-function npmi() {
-	_MOD="$1"
-	if [ -z "$_MOD" ]
-	then
-		echo "!Please pass in a package name"
-	else
-		npm install $_MOD --save-dev
-	fi
-}
 
 #--------------------------------------------------------------------
 # shell function to define words
-# http://vikros.tumblr.com/post/23750050330/cute-little-function-time
 #--------------------------------------------------------------------
+#
+# http://vikros.tumblr.com/post/23750050330/cute-little-function-time
+# 
 def() {
-  if [[ $# -ge 2 ]] then
-    echo "givedef: too many arguments" >&2
-    return 1
-  else
-    curl "dict://dict.org/d:$1"
-  fi
+    if [[ $# -ge 2 ]] then
+        echo "givedef: too many arguments" >&2
+        return 1
+    else
+        curl "dict://dict.org/d:$1" | more
+    fi
 }
 
 
 #--------------------------------------------------------------------
 # display a neatly formatted path
 #--------------------------------------------------------------------
+
 path() {
   echo $PATH | tr ":" "\n" | \
     awk "{ sub(\"/usr\",   \"$fg_no_bold[green]/usr$reset_color\"); \
@@ -95,7 +84,9 @@ any() {
     fi
 }
 
-
+#--------------------------------------------------------------------
+# Sine Wave!
+#--------------------------------------------------------------------
 function sine_wave() {
 
     i=0
@@ -107,4 +98,16 @@ function sine_wave() {
         sleep 0.05
     done
     echo
+}
+
+#--------------------------------------------------------------------
+# cssgrep
+#--------------------------------------------------------------------
+
+function cssgrep() {
+    case "$2" in
+    'leading')
+        grep -n -r "0\.\d[^\.]" $1
+    ;;
+    esac
 }
