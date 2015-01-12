@@ -96,8 +96,10 @@ alias tst='tig status'
 # oh-my-zsh
 #--------------------------------------------------------------------------
 
-# Edit Config
+# Edit Configs
 alias zc="$EDITOR ~/.zshrc"
+alias oc="$ZSH_CUSTOM && $EDITOR ."
+alias tc="$EDITOR ~/.tmux.conf"
 
 # Reload Config
 alias zr=". ~/.zshrc"
